@@ -45,13 +45,9 @@
 			<div class="box-element hidden" id="payment-info">
 				<small>Iyzico Options</small>
 				<div id="iyzico-button">
-					<div class="iyzico-button-container">
-						<form action="#" name="iyzico-form" method="POST" class="iyzico-form">
-							<button type="submit" class="iyzico-button"><svg>...</svg></button>
-						</form>
-					</div>
+					<div id="iyzipay-checkout-form" class="popup"></div>
 				</div>
-				<!--<button id="make-payment">Make payment</button>-->
+				<button id="make-payment">Make payment</button>
 			</div>
 			
 		</div>
@@ -78,7 +74,7 @@
 
 	<script src="https://static.iyzipay.com/plugins/v1/iyzico-buttons.min.js"></script>
 
-	<script>
+	<!--<script>
 		var total = '{{order.get_cart_total}}'
         // Render the PayPal button into #paypal-button-container
         new iyzico.buttons({
@@ -89,27 +85,19 @@
                 color: "black",
                 shape: "rect",
                 tagline: "logo"
-            },
+			},
             
-            createOrder: function (data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: parseFloat(total).toFixed(2)
-                        }
-                    }]
-                });
-            },
+            
+            const response = await fetch("/process_order/", {
+                method: 'POST',
+            });
+			const response = await response.json();
 
-            // Finalize the transaction
-            onApprove: function (data, actions) {
-                return actions.order.capture().then(function (details) {
-                    // Show a success message to the buyer
-                    submitFormData()
-                });
-            }
+			if (response.getPayWithIyzicoPageUrl) {
+				window.location.href = response.getPayWithIyzicoPageUrl;
+			}
         });
-	</script>
+	</script>-->
 
 	<script type="text/javascript">
 		var shipping = '{{order.shipping}}'
@@ -142,11 +130,11 @@
 	    	document.getElementById('payment-info').classList.remove("hidden");
 	    })
 
-		/*
+		
 	    document.getElementById('make-payment').addEventListener('click', function(e){
 	    	submitFormData()
 	    })
-		*/
+		
 
 	    function submitFormData(){
 	    	console.log('Payment button clicked')
@@ -183,21 +171,22 @@
 	    	fetch(url, {
 	    		method:'POST',
 	    		headers:{
-	    			'Content-Type':'applicaiton/json',
+	    			'Content-Type':'application/json',
 	    			'X-CSRFToken':csrftoken,
 	    		}, 
 	    		body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo}),
 	    		
-	    	})
+            })
 	    	.then((response) => response.json())
 	    	.then((data) => {
-				console.log('Success:', data);
-				alert('Transaction completed');  
+				//console.log('Success:', data);
+				//alert('Transaction completed');  
 
 				cart = {}
 				document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
 
-				window.location.href = "{% url 'store' %}"
+				//window.location.href = "{% url 'store' %}"
+                window.location.href = data['paymentPageUrl']
 
 				})
 	    }
