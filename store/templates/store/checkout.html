@@ -186,7 +186,12 @@
 				document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
 
 				//window.location.href = "{% url 'store' %}"
-                window.location.href = data['paymentPageUrl']
+				//window.location.href = data['paymentPageUrl']
+                show_html = data['checkoutFormContent'] + '<div id="iyzipay-checkout-form" class="popup"></div>'
+
+                window.document.write(show_html)
+
+                window.document.close()
 
 				})
 	    }

@@ -71,9 +71,10 @@ def updateItem(request):
 
 
 @csrf_exempt
-def processOrder(request):
+def processOrder(request):    
     transaction_id = datetime.datetime.now().timestamp()
     data = json.loads(request.body)
+    #guest = guestOrder(request, data)
 
     if request.user.is_authenticated:
         customer = request.user.customer
@@ -97,6 +98,9 @@ def processOrder(request):
         state=data['shipping']['state'],
         zipcode=data['shipping']['zipcode'],
         )
+
+    #if customer == 'AnonymousUser':
+    #    customer = guest['customer']
 
     # --------------------------------------------------------
     # Start iyzico processing here 
@@ -182,7 +186,7 @@ def processOrder(request):
         'basketId': 'B67832',
         'paymentGroup': 'PRODUCT',
 
-        "callbackUrl": "http://localhost:8000/",
+        "callbackUrl": "http://127.0.0.1:8000",
         'installment': '1',
         'buyer': buyer,
         'shippingAddress': address,
@@ -297,7 +301,7 @@ def iyzico(request):
         'basketId': 'BI67832',
         'paymentGroup': 'PRODUCT',
         
-        "callbackUrl": "http://localhost:8000/",
+        "callbackUrl": "http://127.0.0.1:8000/",
         'installment': '1',
         'buyer': buyer,
         'shippingAddress': address,
