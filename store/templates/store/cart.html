@@ -14,7 +14,7 @@
 						<th><h5>Items: <strong>{{order.get_cart_items}}</strong></h5></th>
 						<th><h5>Total:<strong> ${{order.get_cart_total|floatformat:2}}</strong></h5></th>
 						<th>
-							<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
+							<a id="checkout" style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
 						</th>
 					</tr>
 				</table>
@@ -49,4 +49,12 @@
 			</div>
 		</div>
 	</div>
+
+	<script type="text/javascript">
+        var total = '{{order.get_cart_total|floatformat:2}}'
+		if (total == 0) {
+            document.getElementById('checkout').classList.add("hidden");
+        }
+
+	</script>
 {% endblock content %}

@@ -69,6 +69,9 @@ def updateItem(request):
 	return JsonResponse('Item was added', safe=False)
 
 
+@csrf_exempt
+def success(request):
+    return render(request, 'store/successful.html')
 
 @csrf_exempt
 def processOrder(request):    
@@ -111,8 +114,8 @@ def processOrder(request):
     print("city: ",data['shipping']['city'])
 
     options = {
-        'api_key': "sandbox-mMFmAU9sflXazllrL23bEeCJTHVvL7kh",
-        'secret_key': "sandbox-RW0d1D8guLJTMo2PlI51eAzqPSQY8QLz",
+        'api_key': "sandbox-1f34H4ijbsKwKTNpOO819uVcmeKVFVru",
+        'secret_key': "sandbox-IEdqibHjYkwQND2pGYiefrjHaFz6uLAv",
         'base_url': iyzipay.base_url
     }
 
@@ -186,7 +189,8 @@ def processOrder(request):
         'basketId': 'B67832',
         'paymentGroup': 'PRODUCT',
 
-        "callbackUrl": "http://127.0.0.1:8000",
+        #"callbackUrl": "http://127.0.0.1:8000",
+        "callbackUrl": "http://127.0.0.1:8000/successful/",
         'installment': '1',
         'buyer': buyer,
         'shippingAddress': address,

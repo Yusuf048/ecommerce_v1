@@ -77,8 +77,14 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.sqlite3',        
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.mysql', 
+        #'NAME': 'ecommerce',
+        #'USER': 'Yusuf',
+        #'PASSWORD': 'Pati.75',
+        #'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        #'PORT': '3306',
     }
 }
 
